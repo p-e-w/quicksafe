@@ -60,6 +60,8 @@ While quicksafe is running, your password and the contents of the editor are kep
 
 Note also that the security provided by quicksafe is conditional on that of the encryption algorithm used (AES), its implementation (PyCrypto), and, of course, on the quality of your password.
 
+Since quicksafe aims to be a *minimal* cryptosystem, authentication is not among its goals. Consequentially, an [HMAC](http://en.wikipedia.org/wiki/Hash-based_message_authentication_code) is not used. In practice, quicksafe should provide a high level of protection against both accidental and intentional modification because the plaintext is compressed before encrypting and most modifications of the ciphertext will result in an invalid zlib data stream after decrypting.
+
 ## License
 
 Copyright © 2014 Philipp Emanuel Weidmann (<pew@worldwidemann.com>)
