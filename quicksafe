@@ -14,36 +14,28 @@ from ScrolledText import ScrolledText
 from tkSimpleDialog import askstring
 from tkMessageBox import showwarning
 from Crypto.Protocol.KDF import PBKDF2
-from Crypto.Cipher import AES
+from Crypto.Cipher.AES import new as AES_new, MODE_CFB, block_size
 from Crypto import Random
 import os
 
 
 # Cryptography methods adapted from http://stackoverflow.com/a/12525165
-bs = AES.block_size
-
-def pad(data):
-    return data + (bs - len(data) % bs) * chr(bs - len(data) % bs)
-
-def unpad(data):
-    return data[:-ord(data[len(data)-1:])]
-
 def get_cipher(password, iv):
     # Key derivation; adjust number of iterations as needed.
     # Note how the initialization vector doubles as a salt
     key = PBKDF2(password, iv, 32, 10000)
-    return AES.new(key, AES.MODE_CBC, iv)
+    return AES_new(key, MODE_CFB, iv)
 
 def encrypt(data, password):
     # Compress before encrypting
-    data = pad(data.encode('zlib'))
-    iv = Random.new().read(bs)
+    data = data.encode('zlib')
+    iv = Random.new().read(block_size)
     return (iv + get_cipher(password, iv).encrypt(data)).encode('base64')
 
 def decrypt(data, password):
     data = data.decode('base64')
-    iv = data[:bs]
-    return unpad(get_cipher(password, iv).decrypt(data[bs:])).decode('zlib')
+    iv = data[:block_size]
+    return get_cipher(password, iv).decrypt(data[block_size:]).decode('zlib')
 
 
 def ask_password(caption):
