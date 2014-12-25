@@ -13,9 +13,9 @@ from Tkinter import *
 from ScrolledText import ScrolledText
 from tkSimpleDialog import askstring
 from tkMessageBox import showwarning
+from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Cipher import AES
 from Crypto import Random
-from hashlib import sha256
 import os
 
 
@@ -29,7 +29,10 @@ def unpad(data):
     return data[:-ord(data[len(data)-1:])]
 
 def get_cipher(password, iv):
-    return AES.new(sha256(password).digest(), AES.MODE_CBC, iv)
+    # Key derivation; adjust number of iterations as needed.
+    # Note how the initialization vector doubles as a salt
+    key = PBKDF2(password, iv, 32, 10000)
+    return AES.new(key, AES.MODE_CBC, iv)
 
 def encrypt(data, password):
     # Compress before encrypting
