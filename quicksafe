@@ -9,13 +9,24 @@
 # Released under the terms of the MIT License
 # (http://opensource.org/licenses/MIT)
 
-from Tkinter import *
-from ScrolledText import ScrolledText
-from tkSimpleDialog import askstring
-from tkMessageBox import showwarning
+try:
+    # Python 3 imports
+    from tkinter import *
+    from tkinter.scrolledtext import ScrolledText
+    from tkinter.simpledialog import askstring
+    from tkinter.messagebox import showwarning
+except ImportError:
+    # Python 2 imports
+    from Tkinter import *
+    from ScrolledText import ScrolledText
+    from tkSimpleDialog import askstring
+    from tkMessageBox import showwarning
 from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Cipher.AES import new as AES_new, MODE_CFB, block_size
 from Crypto import Random
+from zlib import compress, decompress
+from base64 import b64encode, b64decode
+import textwrap
 import os
 
 
@@ -28,14 +39,15 @@ def get_cipher(password, iv):
 
 def encrypt(data, password):
     # Compress before encrypting
-    data = data.encode('zlib')
+    data = compress(data.encode('utf-8'), 9)
     iv = Random.new().read(block_size)
-    return (iv + get_cipher(password, iv).encrypt(data)).encode('base64')
+    return b64encode(iv +
+                     get_cipher(password, iv).encrypt(data)).decode('utf-8')
 
 def decrypt(data, password):
-    data = data.decode('base64')
+    data = b64decode(data)
     iv = data[:block_size]
-    return get_cipher(password, iv).decrypt(data[block_size:]).decode('zlib')
+    return decompress(get_cipher(password, iv).decrypt(data[block_size:]))
 
 
 def ask_password(caption):
@@ -69,7 +81,8 @@ def close_handler():
         password = password1
     with open(__file__, 'w') as file:
         file.write(match.group(1) + '\n' +
-                   encrypt(text, password) + match.group(3))
+                   textwrap.fill(encrypt(text, password), 80) +
+                   '\n' + match.group(3))
     root.destroy()
 
 

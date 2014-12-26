@@ -13,16 +13,17 @@ To use quicksafe, simply [download the script](quicksafe), make it executable (`
 * **Strong security:** [256-bit AES](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard) symmetric encryption in [cipher feedback](http://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_feedback_.28CFB.29) mode. Salted [PBKDF2](http://en.wikipedia.org/wiki/PBKDF2) key derivation to thwart dictionary attacks and precomputation.
 * **Compact footprint:** The overhead from the script is only 3 KB and all text is [zlib](http://en.wikipedia.org/wiki/Zlib)-compressed before encrypting, meaning that the entire file comprising script and data is usually *smaller* in size than the raw text (while remaining pure ASCII).
 * **Cross-platform:** Runs on :checkered_flag: **Windows**, :apple: **OS X** and :penguin: **Linux** without modifications.
+* **Future proof:** Both Python 2 and Python 3 are supported, ensuring that your notes will remain easily readable for many years to come.
 * **Code you can trust because you can understand it:** Less than 70 lines of functional program code, all highly readable! Audit the entire program yourself in a matter of minutes, or hack it to do whatever you want in a matter of seconds.
 
 ## Requirements
-* [Python 2](https://www.python.org/)
+* [Python](https://www.python.org/)
 * [Tkinter](https://wiki.python.org/moin/TkInter)
 * [PyCrypto](https://www.dlitz.net/software/pycrypto/)
 
 ### Windows
 
-First install Python 2 using the [Windows installer](https://www.python.org/downloads/windows/). This will also install Tk/Tkinter. Now follow the [instructions to install setuptools](https://pypi.python.org/pypi/setuptools#windows-simplified). You should then be able to run
+First install Python using the [Windows installer](https://www.python.org/downloads/windows/). This will also install Tk/Tkinter. Now follow the [instructions to install setuptools](https://pypi.python.org/pypi/setuptools#windows-simplified). You should then be able to run
 
 ```
 easy_install pycrypto
