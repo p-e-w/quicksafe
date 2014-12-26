@@ -14,18 +14,20 @@ try:
     from tkinter import *
     from tkinter.scrolledtext import ScrolledText
     from tkinter.simpledialog import askstring
-    from tkinter.messagebox import showwarning
+    from tkinter.messagebox import showwarning, showerror
 except ImportError:
     # Python 2 imports
     from Tkinter import *
     from ScrolledText import ScrolledText
     from tkSimpleDialog import askstring
-    from tkMessageBox import showwarning
+    from tkMessageBox import showwarning, showerror
 from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Cipher.AES import new as AES_new, MODE_CFB, block_size
 from Crypto import Random
 from zlib import compress, decompress
 from base64 import b64encode, b64decode
+from tempfile import NamedTemporaryFile
+from shutil import copyfile
 import textwrap
 import os
 
@@ -59,7 +61,7 @@ def open_handler():
     if not password: sys.exit()
     try:
         scrolled_text.insert(END, decrypt(ciphertext, password))
-    except:
+    except Exception:
         # (Most likely) wrong password => try again
         open_handler()
 
@@ -79,10 +81,19 @@ def close_handler():
             close_handler()
             return
         password = password1
-    with open(__file__, 'w') as file:
-        file.write(match.group(1) + '\n' +
-                   textwrap.fill(encrypt(text, password), 80) +
-                   '\n' + match.group(3))
+    # To prevent data loss in case something goes wrong while encrypting,
+    # first write to a temporary file, then replace this file with it
+    try:
+        with NamedTemporaryFile(delete=False) as file:
+            file.write((match.group(1) + '\n' +
+                        textwrap.fill(encrypt(text, password), 80) +
+                        '\n' + match.group(3)).encode('utf-8'))
+        copyfile(file.name, __file__)
+    except Exception as error:
+        showerror('Error', 'Unable to save: %s' % str(error))
+        return
+    finally:
+        os.remove(file.name)
     root.destroy()
 
 
