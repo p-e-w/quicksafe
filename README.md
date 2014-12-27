@@ -2,7 +2,7 @@
 
 quicksafe is a tiny Python script that provides a GUI text editor to edit notes that are then encrypted and **stored within the script file itself.**
 
-Thus notes encrypted with the system bring their own secure editing environment, capable of running anywhere Python/Tk can run, perfect for archiving, sending by mail or posting online.
+Thus notes encrypted with the system bring their own decryption and editing environment, capable of running anywhere Python/Tk can run, perfect for being archived, sent by mail or posted on the web.
 
 ![Screencast](screencast.gif)
 
@@ -14,7 +14,7 @@ To use quicksafe, simply [download the script](quicksafe), make it executable (`
 * **Compact footprint:** The overhead from the script is only 3 KB and all text is [zlib](http://en.wikipedia.org/wiki/Zlib)-compressed before encrypting, meaning that the entire file comprising script and data is usually *smaller* in size than the raw text (while remaining pure ASCII).
 * **Cross-platform:** Runs on :checkered_flag: **Windows**, :apple: **OS X** and :penguin: **Linux** without modifications.
 * **Future proof:** Both Python 2 and Python 3 are supported, ensuring that your notes will remain easily readable for many years to come.
-* **Code you can trust because you can understand it:** Less than 70 lines of functional program code, all highly readable! Audit the entire program yourself in a matter of minutes, or hack it to do whatever you want in a matter of seconds.
+* **Code you can understand:** Less than 70 lines of functional program code, all highly readable! Audit the entire program yourself in a matter of minutes, or hack it to do whatever you want: Change font and colors, delete itself when a wrong password is entered, send an email each time the file is opened – it's all just a few additional lines away.
 
 ## Requirements
 * [Python](https://www.python.org/)
@@ -29,9 +29,11 @@ First install Python using the [Windows installer](https://www.python.org/downlo
 easy_install pycrypto
 ```
 
-from your Python `Scripts` directory.
+from your Python `Scripts` directory. If you encounter compilation errors, you need to install a compiler suite (both the purpose-built ["Microsoft Visual C++ Compiler for Python"](http://www.microsoft.com/en-us/download/details.aspx?id=44266) and [MinGW](http://mingw.org/) are supported).
 
 ### OS X
+
+**_Note:_ When using quicksafe on OS X, be aware of [bug #2](https://github.com/p-e-w/quicksafe/issues/2)!**
 
 Python and Tkinter are installed by default on most Macs, so a simple
 
@@ -39,9 +41,9 @@ Python and Tkinter are installed by default on most Macs, so a simple
 sudo easy_install pycrypto
 ```
 
-should take care of the requirements.
+should take care of the requirements. You may be prompted to install the command line developer tools, which are needed for building PyCrypto's native code components from source.
 
-### Ubuntu
+### Ubuntu / Linux Mint
 
 ```
 sudo apt-get install python-dev python-tk
