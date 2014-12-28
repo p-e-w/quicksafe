@@ -11,13 +11,13 @@
 
 try:
     # Python 3 imports
-    from tkinter import *
+    from tkinter import Tk, WORD, BOTH, END
     from tkinter.scrolledtext import ScrolledText
     from tkinter.simpledialog import askstring
     from tkinter.messagebox import showwarning, showerror
 except ImportError:
     # Python 2 imports
-    from Tkinter import *
+    from Tkinter import Tk, WORD, BOTH, END
     from ScrolledText import ScrolledText
     from tkSimpleDialog import askstring
     from tkMessageBox import showwarning, showerror
@@ -28,8 +28,7 @@ from zlib import compress, decompress
 from base64 import b64encode, b64decode
 from tempfile import NamedTemporaryFile
 from shutil import copyfile
-import textwrap
-import os
+import sys, textwrap, os, re
 
 
 # Cryptography methods adapted from http://stackoverflow.com/a/12525165
