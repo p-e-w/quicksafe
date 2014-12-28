@@ -10,7 +10,7 @@ To use quicksafe, simply [download the script](quicksafe), make it executable (`
 
 ## Features
 
-* **Strong security:** [256-bit AES](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard) symmetric encryption in [cipher feedback](http://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_feedback_.28CFB.29) mode. Salted [PBKDF2](http://en.wikipedia.org/wiki/PBKDF2) key derivation to thwart dictionary attacks and precomputation.
+* **Strong security:** [256-bit AES](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard) symmetric encryption in [cipher feedback](http://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_feedback_.28CFB.29) mode. Salted [PBKDF2](http://en.wikipedia.org/wiki/PBKDF2) key derivation to thwart dictionary attacks and precomputation. Plaintext is *never* written to disk (except possibly through OS mechanisms such as swapping that are outside of the control of userland programs).
 * **Compact footprint:** The overhead from the script is only 3 KB and all text is [zlib](http://en.wikipedia.org/wiki/Zlib)-compressed before encrypting, meaning that the entire file comprising script and data is usually *smaller* in size than the raw text (while remaining pure ASCII).
 * **Cross-platform:** Runs on :checkered_flag: **Windows**, :apple: **OS X** and :penguin: **Linux** without modifications.
 * **Future proof:** Both Python 2 and Python 3 are supported, ensuring that your notes will remain easily readable for many years to come.
