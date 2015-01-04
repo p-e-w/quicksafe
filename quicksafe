@@ -59,7 +59,7 @@ def open_handler():
     password = ask_password('Enter Password')
     if not password: sys.exit()
     try:
-        scrolled_text.insert(END, decrypt(ciphertext, password))
+        scrolled_text.insert(END, decrypt(ciphertext, password).decode('utf-8'))
     except Exception:
         # (Most likely) wrong password => try again
         open_handler()
