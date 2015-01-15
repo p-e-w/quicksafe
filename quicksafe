@@ -52,7 +52,7 @@ def decrypt(data, password):
 
 
 def ask_password(caption):
-    return askstring(caption, '', show='*')
+    return askstring(caption, '', show='*').encode('utf-8')
 
 def open_handler():
     global password
